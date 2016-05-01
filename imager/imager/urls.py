@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+# from .views import home_page
+from .views import ClassView
+from django.views.generic import TemplateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    # url(r'^home/(?P<id>[0-9]+)$', home_page, name="home_page"),
+    url(r'^home/(?P<id>[0-9]+)$', ClassView.as_view(), name="home_page"),
+    # url(r'^home/(?P<id>[0-9]+)$', TemplateView.as_view(template_name='home.html'), name="home_page"),
+    # url(r'^', login_required(ClassView.as_view()), name='homepage'),
 ]
