@@ -2,14 +2,19 @@
 """signal handlers registered by the imager_users app"""
 
 from __future__ import unicode_literals
+
+import logging
+
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.db.models.signals import pre_delete
+
 from django.dispatch import receiver
+
 from imager_profile.models import ImagerProfile
-import logging
 
 logger = logging.getLogger(__name__)
+
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def ensure_imager_profile(sender, **kwargs):
@@ -21,6 +26,7 @@ def ensure_imager_profile(sender, **kwargs):
         except (KeyError, ValueError):
             msg = 'unable to create new profile for {}'
             logger.error(msg.format(kwargs['instance']))
+
 
 @receiver(pre_delete, sender=settings.AUTH_USER_MODEL)
 def remove_imager_profile(sender, **kwargs):
